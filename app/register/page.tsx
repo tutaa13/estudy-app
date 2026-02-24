@@ -1,0 +1,135 @@
+'use client'
+
+export const dynamic = 'force-dynamic'
+
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { createClient } from '@/lib/supabase/client'
+import { BookOpen, Loader2 } from 'lucide-react'
+
+export default function RegisterPage() {
+  const router = useRouter()
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setError('')
+    setLoading(true)
+
+    if (password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres.')
+      setLoading(false)
+      return
+    }
+
+    const supabase = createClient()
+    const { error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { full_name: fullName },
+      },
+    })
+
+    if (error) {
+      setError(error.message === 'User already registered'
+        ? 'Ya existe una cuenta con ese email.'
+        : 'Ocurrió un error. Intentá de nuevo.')
+      setLoading(false)
+      return
+    }
+
+    router.push('/dashboard')
+    router.refresh()
+  }
+
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-50 to-purple-50 px-4">
+      <div className="w-full max-w-md">
+        <div className="flex flex-col items-center mb-8">
+          <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600 mb-4">
+            <BookOpen className="w-7 h-7 text-white" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">EstudiApp</h1>
+          <p className="text-sm text-gray-500 mt-1">Creá tu cuenta gratis</p>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <div>
+              <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Nombre completo
+              </label>
+              <input
+                id="fullName"
+                type="text"
+                required
+                value={fullName}
+                onChange={e => setFullName(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+                placeholder="Juan García"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                required
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+                placeholder="tu@email.com"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1.5">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                required
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+                placeholder="Mínimo 6 caracteres"
+              />
+            </div>
+
+            {error && (
+              <div className="rounded-xl bg-red-50 border border-red-100 px-4 py-3 text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 text-white font-medium py-2.5 text-sm hover:bg-indigo-700 disabled:opacity-60 transition"
+            >
+              {loading && <Loader2 className="w-4 h-4 animate-spin" />}
+              Crear cuenta
+            </button>
+          </form>
+
+          <p className="text-center text-sm text-gray-500 mt-6">
+            ¿Ya tenés cuenta?{' '}
+            <Link href="/login" className="text-indigo-600 font-medium hover:underline">
+              Iniciá sesión
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  )
+}
