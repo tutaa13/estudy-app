@@ -40,12 +40,12 @@ export default async function PlanPage({ params }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href={`/subjects/${params.id}`} className="text-gray-400 hover:text-gray-600 transition">
+        <Link href={`/subjects/${params.id}`} className="text-muted-foreground hover:text-muted-foreground transition">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Plan de estudio</h1>
-          <p className="text-sm text-gray-500">{sub.name}</p>
+          <h1 className="text-2xl font-bold text-foreground">Plan de estudio</h1>
+          <p className="text-sm text-muted-foreground">{sub.name}</p>
         </div>
       </div>
 
@@ -58,18 +58,18 @@ export default async function PlanPage({ params }: Props) {
 
       {/* Progress */}
       {activePlan && sessions.length > 0 && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
+        <div className="bg-card rounded-2xl border border-border p-5">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-sm font-medium text-gray-700">Progreso del plan</span>
-            <span className="text-sm font-bold text-indigo-700">{progressPct}%</span>
+            <span className="text-sm font-medium text-muted-foreground">Progreso del plan</span>
+            <span className="text-sm font-bold text-violet-700">{progressPct}%</span>
           </div>
-          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
+          <div className="h-2.5 bg-muted rounded-full overflow-hidden">
             <div
               className="h-full rounded-full transition-all duration-500"
               style={{ width: `${progressPct}%`, backgroundColor: sub.color }}
             />
           </div>
-          <p className="text-xs text-gray-400 mt-2">
+          <p className="text-xs text-muted-foreground mt-2">
             {completedCount} de {sessions.length} sesiones completadas · {activePlan.total_hours}hs totales
           </p>
         </div>
@@ -81,8 +81,8 @@ export default async function PlanPage({ params }: Props) {
       )}
 
       {!activePlan && (
-        <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-12 text-center">
-          <p className="text-gray-400 text-sm">
+        <div className="bg-card rounded-2xl border border-dashed border-border p-12 text-center">
+          <p className="text-muted-foreground text-sm">
             Hacé click en &quot;Generar plan&quot; para que la IA cree un plan de estudio personalizado basado en tus materiales.
           </p>
         </div>

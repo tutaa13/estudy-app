@@ -69,11 +69,11 @@ export function SubjectForm({ subject }: Props) {
   const minDate = tomorrow.toISOString().split('T')[0]
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6">
+    <div className="bg-card rounded-2xl border border-border p-6">
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
             Nombre de la materia *
           </label>
           <input
@@ -82,28 +82,28 @@ export function SubjectForm({ subject }: Props) {
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Ej: Cálculo II, Historia Argentina..."
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
           />
         </div>
 
         {/* Description */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Descripción <span className="text-gray-400">(opcional)</span>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+            Descripción <span className="text-muted-foreground">(opcional)</span>
           </label>
           <textarea
             value={description}
             onChange={e => setDescription(e.target.value)}
             placeholder="Temas generales, notas adicionales..."
             rows={2}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition resize-none"
+            className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition resize-none"
           />
         </div>
 
         {/* Exam date + hours per day */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">
               Fecha del examen *
             </label>
             <input
@@ -112,11 +112,11 @@ export function SubjectForm({ subject }: Props) {
               min={minDate}
               value={examDate}
               onChange={e => setExamDate(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">
               Horas disponibles por día *
             </label>
             <input
@@ -127,14 +127,14 @@ export function SubjectForm({ subject }: Props) {
               step="0.5"
               value={hoursPerDay}
               onChange={e => setHoursPerDay(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
             />
           </div>
         </div>
 
         {/* Color */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-muted-foreground mb-2">
             Color identificador
           </label>
           <div className="flex flex-wrap gap-2">
@@ -162,14 +162,14 @@ export function SubjectForm({ subject }: Props) {
           <button
             type="button"
             onClick={() => router.back()}
-            className="flex-1 rounded-xl border border-gray-200 text-gray-600 font-medium py-2.5 text-sm hover:bg-gray-50 transition"
+            className="flex-1 rounded-xl border border-border text-muted-foreground font-medium py-2.5 text-sm hover:bg-muted transition"
           >
             Cancelar
           </button>
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-indigo-600 text-white font-medium py-2.5 text-sm hover:bg-indigo-700 disabled:opacity-60 transition"
+            className="flex-1 flex items-center justify-center gap-2 rounded-xl bg-violet-600 text-white font-medium py-2.5 text-sm hover:bg-violet-700 disabled:opacity-60 transition"
           >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             {subject ? 'Guardar cambios' : 'Crear materia'}

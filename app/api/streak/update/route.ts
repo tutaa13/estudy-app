@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 
-export const STREAK_MILESTONES = [3, 7, 14, 30, 50, 100, 365]
+const STREAK_MILESTONES = [3, 7, 14, 30, 50, 100, 365]
 
 export async function POST() {
   const supabase = createClient()

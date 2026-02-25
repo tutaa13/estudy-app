@@ -39,12 +39,12 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Panel principal</h1>
-          <p className="text-sm text-gray-500 mt-0.5">{formatDate(new Date())}</p>
+          <h1 className="text-2xl font-bold text-foreground">Panel principal</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">{formatDate(new Date())}</p>
         </div>
         <Link
           href="/subjects/new"
-          className="flex items-center gap-2 rounded-xl bg-indigo-600 text-white text-sm font-medium px-4 py-2.5 hover:bg-indigo-700 transition"
+          className="flex items-center gap-2 rounded-lg bg-violet-600 text-white text-sm font-medium px-4 py-2 hover:bg-violet-700 transition"
         >
           <Plus className="w-4 h-4" />
           Nueva materia
@@ -60,56 +60,58 @@ export default async function DashboardPage() {
       />
 
       {/* Stats */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         {[
-          { label: 'Materias activas', value: activeSubjects.length, icon: BookMarked, color: 'bg-indigo-50 text-indigo-600' },
-          { label: 'Sesiones hoy', value: sessions.length, icon: Clock, color: 'bg-blue-50 text-blue-600' },
-          { label: 'Completadas hoy', value: completedToday, icon: CheckCircle2, color: 'bg-green-50 text-green-600' },
-          { label: 'Pendientes hoy', value: sessions.length - completedToday, icon: AlertCircle, color: 'bg-orange-50 text-orange-600' },
+          { label: 'Materias activas', value: activeSubjects.length, icon: BookMarked, color: 'bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-400' },
+          { label: 'Sesiones hoy', value: sessions.length, icon: Clock, color: 'bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400' },
+          { label: 'Completadas hoy', value: completedToday, icon: CheckCircle2, color: 'bg-green-50 text-green-600 dark:bg-green-950/40 dark:text-green-400' },
+          { label: 'Pendientes hoy', value: sessions.length - completedToday, icon: AlertCircle, color: 'bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400' },
         ].map(({ label, value, icon: Icon, color }) => (
-          <div key={label} className="bg-white rounded-2xl border border-gray-100 p-4">
-            <div className={`inline-flex items-center justify-center w-9 h-9 rounded-xl ${color} mb-3`}>
-              <Icon className="w-4.5 h-4.5 w-[18px] h-[18px]" />
+          <div key={label} className="bg-card rounded-xl border border-border p-4">
+            <div className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${color} mb-3`}>
+              <Icon className="w-4 h-4" />
             </div>
-            <p className="text-2xl font-bold text-gray-900">{value}</p>
-            <p className="text-xs text-gray-500 mt-0.5">{label}</p>
+            <p className="text-2xl font-bold text-foreground">{value}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Today's sessions */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5">
-        <h2 className="font-semibold text-gray-900 mb-4">Sesiones de hoy</h2>
+      <div className="bg-card rounded-xl border border-border p-5">
+        <h2 className="font-semibold text-foreground mb-4">Sesiones de hoy</h2>
         {sessions.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-gray-400 text-sm">No tenés sesiones programadas para hoy.</p>
-            <Link href="/subjects" className="text-indigo-600 text-sm font-medium hover:underline mt-2 inline-block">
+            <p className="text-muted-foreground text-sm">No tenés sesiones programadas para hoy.</p>
+            <Link href="/subjects" className="text-violet-600 dark:text-violet-400 text-sm font-medium hover:underline mt-2 inline-block">
               Ir a mis materias →
             </Link>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {sessions.map((session) => (
               <div
                 key={session.id}
-                className={`flex items-start gap-3 p-3.5 rounded-xl border transition ${
-                  session.is_completed ? 'border-green-100 bg-green-50' : 'border-gray-100 hover:border-indigo-100'
+                className={`flex items-start gap-3 p-3.5 rounded-lg border transition ${
+                  session.is_completed
+                    ? 'border-green-200/60 bg-green-50 dark:border-green-900/40 dark:bg-green-950/20'
+                    : 'border-border hover:border-violet-200 dark:hover:border-violet-800'
                 }`}
               >
                 <div
-                  className="w-3 h-3 rounded-full mt-1 flex-shrink-0"
-                  style={{ backgroundColor: session.subject?.color ?? '#6366f1' }}
+                  className="w-2.5 h-2.5 rounded-full mt-1.5 flex-shrink-0"
+                  style={{ backgroundColor: session.subject?.color ?? '#7c3aed' }}
                 />
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium ${session.is_completed ? 'line-through text-gray-400' : 'text-gray-900'}`}>
+                  <p className={`text-sm font-medium ${session.is_completed ? 'line-through text-muted-foreground' : 'text-foreground'}`}>
                     {session.title}
                   </p>
-                  <p className="text-xs text-gray-500 mt-0.5">
+                  <p className="text-xs text-muted-foreground mt-0.5">
                     {session.subject?.name} · {session.duration_hours}hs
                   </p>
                 </div>
                 {session.is_completed && (
-                  <CheckCircle2 className="w-5 h-5 text-green-500 flex-shrink-0" />
+                  <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" />
                 )}
               </div>
             ))}
@@ -119,23 +121,27 @@ export default async function DashboardPage() {
 
       {/* Upcoming exams */}
       {activeSubjects.length > 0 && (
-        <div className="bg-white rounded-2xl border border-gray-100 p-5">
-          <h2 className="font-semibold text-gray-900 mb-4">Próximos exámenes</h2>
-          <div className="space-y-3">
+        <div className="bg-card rounded-xl border border-border p-5">
+          <h2 className="font-semibold text-foreground mb-4">Próximos exámenes</h2>
+          <div className="space-y-1">
             {activeSubjects.slice(0, 5).map((subject) => {
               const days = daysUntilExam(subject.exam_date)
-              const urgency = days <= 7 ? 'text-red-600 bg-red-50' : days <= 14 ? 'text-orange-600 bg-orange-50' : 'text-indigo-600 bg-indigo-50'
+              const urgency = days <= 7
+                ? 'text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-950/40'
+                : days <= 14
+                  ? 'text-orange-600 bg-orange-50 dark:text-orange-400 dark:bg-orange-950/40'
+                  : 'text-violet-600 bg-violet-50 dark:text-violet-400 dark:bg-violet-950/40'
               return (
                 <Link
                   key={subject.id}
                   href={`/subjects/${subject.id}`}
-                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted transition"
                 >
                   <div
-                    className="w-3 h-3 rounded-full flex-shrink-0"
+                    className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                     style={{ backgroundColor: subject.color }}
                   />
-                  <span className="flex-1 text-sm font-medium text-gray-900">{subject.name}</span>
+                  <span className="flex-1 text-sm font-medium text-foreground">{subject.name}</span>
                   <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${urgency}`}>
                     {days < 0 ? 'Vencido' : days === 0 ? '¡Hoy!' : `${days} días`}
                   </span>
@@ -148,13 +154,13 @@ export default async function DashboardPage() {
 
       {/* Empty state */}
       {activeSubjects.length === 0 && (
-        <div className="bg-white rounded-2xl border border-dashed border-gray-200 p-12 text-center">
-          <BookMarked className="w-12 h-12 text-gray-200 mx-auto mb-4" />
-          <h3 className="font-semibold text-gray-900 mb-1">No tenés materias todavía</h3>
-          <p className="text-sm text-gray-500 mb-5">Creá tu primera materia para empezar a planificar</p>
+        <div className="bg-card rounded-xl border border-dashed border-border p-12 text-center">
+          <BookMarked className="w-12 h-12 text-muted mx-auto mb-4" />
+          <h3 className="font-semibold text-foreground mb-1">No tenés materias todavía</h3>
+          <p className="text-sm text-muted-foreground mb-5">Creá tu primera materia para empezar a planificar</p>
           <Link
             href="/subjects/new"
-            className="inline-flex items-center gap-2 rounded-xl bg-indigo-600 text-white text-sm font-medium px-5 py-2.5 hover:bg-indigo-700 transition"
+            className="inline-flex items-center gap-2 rounded-lg bg-violet-600 text-white text-sm font-medium px-5 py-2.5 hover:bg-violet-700 transition"
           >
             <Plus className="w-4 h-4" />
             Crear primera materia

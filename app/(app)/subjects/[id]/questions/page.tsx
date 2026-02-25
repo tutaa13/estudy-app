@@ -29,12 +29,12 @@ export default async function QuestionsPage({ params }: Props) {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-3">
-        <Link href={`/subjects/${params.id}`} className="text-gray-400 hover:text-gray-600 transition">
+        <Link href={`/subjects/${params.id}`} className="text-muted-foreground hover:text-muted-foreground transition">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Preguntas de práctica</h1>
-          <p className="text-sm text-gray-500">{(subject as Subject).name}</p>
+          <h1 className="text-2xl font-bold text-foreground">Preguntas de práctica</h1>
+          <p className="text-sm text-muted-foreground">{(subject as Subject).name}</p>
         </div>
       </div>
 

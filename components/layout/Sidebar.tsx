@@ -4,17 +4,17 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import {
-  BookOpen, LayoutDashboard, BookMarked, Calendar,
-  BarChart2, Settings, LogOut
+  LayoutDashboard, BookMarked, Calendar,
+  BarChart2, Settings, LogOut, GraduationCap
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { ThemeToggle } from '@/components/ThemeToggle'
 
 const navItems = [
   { href: '/dashboard', label: 'Inicio', icon: LayoutDashboard },
   { href: '/subjects', label: 'Materias', icon: BookMarked },
   { href: '/calendar', label: 'Calendario', icon: Calendar },
   { href: '/progress', label: 'Progreso', icon: BarChart2 },
-  { href: '/settings', label: 'Configuración', icon: Settings },
 ]
 
 export function Sidebar() {
@@ -29,17 +29,17 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="hidden md:flex flex-col w-60 min-h-screen bg-white border-r border-gray-100 fixed left-0 top-0 z-30">
+    <aside className="hidden md:flex flex-col w-56 min-h-screen bg-sidebar fixed left-0 top-0 z-30 border-r border-sidebar-border">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-gray-100">
-        <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-indigo-600">
-          <BookOpen className="w-5 h-5 text-white" />
+      <div className="flex items-center gap-2.5 px-5 py-[18px] border-b border-sidebar-border">
+        <div className="flex items-center justify-center w-7 h-7 rounded-lg bg-violet-600">
+          <GraduationCap className="w-4 h-4 text-white" />
         </div>
-        <span className="font-bold text-gray-900 text-lg">EstudiApp</span>
+        <span className="font-semibold text-sidebar-fg-active text-[15px] tracking-tight">EstudiApp</span>
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-2 py-3 space-y-0.5">
         {navItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href || pathname.startsWith(href + '/')
           return (
@@ -47,28 +47,44 @@ export function Sidebar() {
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors',
+                'flex items-center gap-2.5 px-3 py-2 rounded-md text-[13.5px] font-medium transition-colors',
                 active
-                  ? 'bg-indigo-50 text-indigo-700'
-                  : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                  ? 'bg-sidebar-active-bg text-sidebar-fg-active'
+                  : 'text-sidebar-fg hover:bg-sidebar-hover hover:text-sidebar-fg-active'
               )}
             >
-              <Icon className="w-4.5 h-4.5 w-[18px] h-[18px]" />
+              <Icon className={cn('w-4 h-4 flex-shrink-0', active ? 'opacity-100' : 'opacity-60')} />
               {label}
             </Link>
           )
         })}
       </nav>
 
-      {/* Sign out */}
-      <div className="px-3 pb-4">
-        <button
-          onClick={handleSignOut}
-          className="flex items-center gap-3 px-3 py-2.5 w-full rounded-xl text-sm font-medium text-gray-500 hover:bg-red-50 hover:text-red-600 transition-colors"
+      {/* Bottom actions */}
+      <div className="px-2 pb-3 space-y-0.5 border-t border-sidebar-border pt-3">
+        <Link
+          href="/settings"
+          className={cn(
+            'flex items-center gap-2.5 px-3 py-2 rounded-md text-[13.5px] font-medium transition-colors w-full',
+            pathname.startsWith('/settings')
+              ? 'bg-sidebar-active-bg text-sidebar-fg-active'
+              : 'text-sidebar-fg hover:bg-sidebar-hover hover:text-sidebar-fg-active'
+          )}
         >
-          <LogOut className="w-[18px] h-[18px]" />
-          Cerrar sesión
-        </button>
+          <Settings className={cn('w-4 h-4 flex-shrink-0', pathname.startsWith('/settings') ? 'opacity-100' : 'opacity-60')} />
+          Configuración
+        </Link>
+
+        <div className="flex items-center gap-1 px-3 py-1.5">
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2.5 flex-1 py-0.5 text-[13.5px] font-medium text-sidebar-fg hover:text-red-400 transition-colors"
+          >
+            <LogOut className="w-4 h-4 flex-shrink-0 opacity-60" />
+            Cerrar sesión
+          </button>
+          <ThemeToggle />
+        </div>
       </div>
     </aside>
   )

@@ -32,26 +32,26 @@ export default async function SubjectDetailPage({ params }: Props) {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-start gap-4">
-        <Link href="/subjects" className="text-gray-400 hover:text-gray-600 transition mt-1">
+        <Link href="/subjects" className="text-muted-foreground hover:text-muted-foreground transition mt-1">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div className="flex-1">
           <div className="flex items-center gap-2 mb-1">
             <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: sub.color }} />
-            <h1 className="text-2xl font-bold text-gray-900">{sub.name}</h1>
+            <h1 className="text-2xl font-bold text-foreground">{sub.name}</h1>
           </div>
-          {sub.description && <p className="text-sm text-gray-500">{sub.description}</p>}
+          {sub.description && <p className="text-sm text-muted-foreground">{sub.description}</p>}
           <div className="flex flex-wrap gap-4 mt-3">
-            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <CalendarDays className="w-4 h-4" />
               <span>Examen: {formatDate(sub.exam_date)}</span>
             </div>
-            <div className="flex items-center gap-1.5 text-sm text-gray-500">
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
               <Clock className="w-4 h-4" />
               <span>{sub.hours_per_day}hs disponibles por día</span>
             </div>
             <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-              days <= 7 ? 'bg-red-50 text-red-600' : days <= 14 ? 'bg-orange-50 text-orange-600' : 'bg-indigo-50 text-indigo-600'
+              days <= 7 ? 'bg-red-50 text-red-600' : days <= 14 ? 'bg-orange-50 text-orange-600' : 'bg-violet-50 text-violet-600'
             }`}>
               {days < 0 ? 'Examen vencido' : days === 0 ? '¡Hoy!' : `${days} días`}
             </span>
@@ -59,7 +59,7 @@ export default async function SubjectDetailPage({ params }: Props) {
         </div>
         <Link
           href={`/subjects/${sub.id}/edit`}
-          className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-900 border border-gray-200 rounded-xl px-3 py-2 hover:bg-gray-50 transition"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground border border-border rounded-xl px-3 py-2 hover:bg-muted transition"
         >
           <Pencil className="w-3.5 h-3.5" />
           Editar
@@ -70,16 +70,16 @@ export default async function SubjectDetailPage({ params }: Props) {
       <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <Link
           href={`/subjects/${sub.id}/plan`}
-          className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-sm transition group"
+          className="flex items-center gap-3 p-4 bg-card rounded-2xl border border-border hover:border-violet-200 hover:shadow-sm transition group"
         >
-          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center group-hover:bg-indigo-100 transition">
-            <CalendarDays className="w-5 h-5 text-indigo-600" />
+          <div className="w-10 h-10 rounded-xl bg-violet-50 flex items-center justify-center group-hover:bg-indigo-100 transition">
+            <CalendarDays className="w-5 h-5 text-violet-600" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-900">
+            <p className="text-sm font-semibold text-foreground">
               {hasPlan ? 'Ver plan' : 'Generar plan'}
             </p>
-            <p className="text-xs text-gray-400">
+            <p className="text-xs text-muted-foreground">
               {hasPlan ? 'Calendario de estudio' : 'Con IA desde tus materiales'}
             </p>
           </div>
@@ -87,38 +87,38 @@ export default async function SubjectDetailPage({ params }: Props) {
 
         <Link
           href={`/subjects/${sub.id}/questions`}
-          className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 hover:border-purple-200 hover:shadow-sm transition group"
+          className="flex items-center gap-3 p-4 bg-card rounded-2xl border border-border hover:border-purple-200 hover:shadow-sm transition group"
         >
           <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center group-hover:bg-purple-100 transition">
             <Lightbulb className="w-5 h-5 text-purple-600" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-900">Practicar</p>
-            <p className="text-xs text-gray-400">Preguntas generadas por IA</p>
+            <p className="text-sm font-semibold text-foreground">Practicar</p>
+            <p className="text-xs text-muted-foreground">Preguntas generadas por IA</p>
           </div>
         </Link>
 
         <Link
           href={`/subjects/${sub.id}/flashcards`}
-          className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 hover:border-amber-200 hover:shadow-sm transition group"
+          className="flex items-center gap-3 p-4 bg-card rounded-2xl border border-border hover:border-amber-200 hover:shadow-sm transition group"
         >
           <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition">
             <Layers className="w-5 h-5 text-amber-600" />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-900">Flashcards</p>
-            <p className="text-xs text-gray-400">Tarjetas de repaso con IA</p>
+            <p className="text-sm font-semibold text-foreground">Flashcards</p>
+            <p className="text-xs text-muted-foreground">Tarjetas de repaso con IA</p>
           </div>
         </Link>
       </div>
 
       {/* Materials */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-5">
+      <div className="bg-card rounded-2xl border border-border p-5">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <BookOpen className="w-4.5 h-4.5 w-[18px] h-[18px] text-gray-500" />
-            <h2 className="font-semibold text-gray-900">Materiales de estudio</h2>
-            <span className="text-xs bg-gray-100 text-gray-500 rounded-full px-2 py-0.5">{mats.length}</span>
+            <BookOpen className="w-4.5 h-4.5 w-[18px] h-[18px] text-muted-foreground" />
+            <h2 className="font-semibold text-foreground">Materiales de estudio</h2>
+            <span className="text-xs bg-muted text-muted-foreground rounded-full px-2 py-0.5">{mats.length}</span>
           </div>
         </div>
         <MaterialUploader subjectId={sub.id} />

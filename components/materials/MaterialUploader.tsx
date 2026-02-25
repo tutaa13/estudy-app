@@ -93,15 +93,15 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
   ]
 
   return (
-    <div className="border border-dashed border-gray-200 rounded-xl p-4 mb-5">
+    <div className="border border-dashed border-border rounded-xl p-4 mb-5">
       {/* Tabs */}
-      <div className="flex gap-1 mb-4 bg-gray-50 rounded-xl p-1">
+      <div className="flex gap-1 mb-4 bg-muted rounded-xl p-1">
         {tabs.map(({ key, label, icon }) => (
           <button
             key={key}
             onClick={() => { setActiveTab(key); setError(''); setSuccess('') }}
             className={`flex-1 flex items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-medium transition ${
-              activeTab === key ? 'bg-white shadow-sm text-indigo-700' : 'text-gray-500 hover:text-gray-700'
+              activeTab === key ? 'bg-card shadow-sm text-violet-700' : 'text-muted-foreground hover:text-muted-foreground'
             }`}
           >
             {icon}
@@ -117,7 +117,7 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
           onDragLeave={() => setDragging(false)}
           onDrop={handleDrop}
           className={`border-2 border-dashed rounded-xl p-6 text-center transition cursor-pointer ${
-            dragging ? 'border-indigo-400 bg-indigo-50' : 'border-gray-200 hover:border-indigo-300'
+            dragging ? 'border-violet-400 bg-violet-50' : 'border-border hover:border-violet-300'
           }`}
           onClick={() => document.getElementById('file-input')?.click()}
         >
@@ -129,12 +129,12 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
             onChange={e => setFile(e.target.files?.[0] ?? null)}
           />
           {file ? (
-            <p className="text-sm font-medium text-indigo-700">{file.name}</p>
+            <p className="text-sm font-medium text-violet-700">{file.name}</p>
           ) : (
             <>
-              <Upload className="w-7 h-7 text-gray-300 mx-auto mb-2" />
-              <p className="text-sm text-gray-500">
-                Arrastrá tu {activeTab === 'pdf' ? 'PDF' : 'imagen'} aquí o <span className="text-indigo-600 font-medium">hacé click</span>
+              <Upload className="w-7 h-7 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">
+                Arrastrá tu {activeTab === 'pdf' ? 'PDF' : 'imagen'} aquí o <span className="text-violet-600 font-medium">hacé click</span>
               </p>
             </>
           )}
@@ -149,9 +149,9 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
             value={youtubeUrl}
             onChange={e => setYoutubeUrl(e.target.value)}
             placeholder="https://www.youtube.com/watch?v=..."
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
           />
-          <p className="text-xs text-gray-400">La app descarga automáticamente la transcripción del video</p>
+          <p className="text-xs text-muted-foreground">La app descarga automáticamente la transcripción del video</p>
         </div>
       )}
 
@@ -163,14 +163,14 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
             value={textTitle}
             onChange={e => setTextTitle(e.target.value)}
             placeholder="Título del apunte"
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+            className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
           />
           <textarea
             value={textContent}
             onChange={e => setTextContent(e.target.value)}
             placeholder="Escribí o pegá tus apuntes aquí..."
             rows={6}
-            className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition resize-none"
+            className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition resize-none"
           />
         </div>
       )}
@@ -185,7 +185,7 @@ export function MaterialUploader({ subjectId, onUploaded }: Props) {
       <button
         onClick={handleUpload}
         disabled={loading}
-        className="mt-4 flex items-center gap-2 rounded-xl bg-indigo-600 text-white text-sm font-medium px-4 py-2.5 hover:bg-indigo-700 disabled:opacity-60 transition w-full justify-center"
+        className="mt-4 flex items-center gap-2 rounded-xl bg-violet-600 text-white text-sm font-medium px-4 py-2.5 hover:bg-violet-700 disabled:opacity-60 transition w-full justify-center"
       >
         {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
         {loading ? 'Procesando...' : 'Agregar material'}

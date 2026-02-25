@@ -84,13 +84,13 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
     return (
       <div className="space-y-4">
         {/* Progress */}
-        <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
           <span>Pregunta {currentIndex + 1} de {questions.length}</span>
-          <button onClick={() => setMode('config')} className="text-xs text-gray-400 hover:text-gray-600">
+          <button onClick={() => setMode('config')} className="text-xs text-muted-foreground hover:text-muted-foreground">
             Salir
           </button>
         </div>
-        <div className="h-1.5 bg-gray-100 rounded-full">
+        <div className="h-1.5 bg-muted rounded-full">
           <div
             className="h-full rounded-full transition-all"
             style={{ width: `${((currentIndex + 1) / questions.length) * 100}%`, backgroundColor: subjectColor }}
@@ -98,7 +98,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
         </div>
 
         {/* Question card */}
-        <div className="bg-white rounded-2xl border border-gray-100 p-6">
+        <div className="bg-card rounded-2xl border border-border p-6">
           <div className="flex items-center gap-2 mb-4">
             <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${
               currentQuestion.difficulty === 'easy' ? 'bg-green-50 text-green-600' :
@@ -107,12 +107,12 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
             }`}>
               {currentQuestion.difficulty === 'easy' ? 'Fácil' : currentQuestion.difficulty === 'medium' ? 'Media' : 'Difícil'}
             </span>
-            <span className="text-xs text-gray-400">
+            <span className="text-xs text-muted-foreground">
               {currentQuestion.type === 'multiple_choice' ? 'Opción múltiple' : currentQuestion.type === 'short_answer' ? 'Respuesta corta' : 'Verdadero/Falso'}
             </span>
           </div>
 
-          <p className="text-base font-medium text-gray-900 mb-6">{currentQuestion.question_text}</p>
+          <p className="text-base font-medium text-foreground mb-6">{currentQuestion.question_text}</p>
 
           {/* Multiple choice / True-False options */}
           {currentQuestion.options && (
@@ -120,12 +120,12 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
               {Object.entries(currentQuestion.options).map(([key, value]) => {
                 const isSelected = answers[currentQuestion.id] === key
                 const isCorrectOption = key === currentQuestion.correct_answer
-                let optionClass = 'border-gray-200 hover:border-indigo-300 hover:bg-indigo-50/30 cursor-pointer'
+                let optionClass = 'border-border hover:border-violet-300 hover:bg-violet-50/30 cursor-pointer'
 
                 if (answered) {
                   if (isCorrectOption) optionClass = 'border-green-400 bg-green-50'
                   else if (isSelected) optionClass = 'border-red-400 bg-red-50'
-                  else optionClass = 'border-gray-100 opacity-60'
+                  else optionClass = 'border-border opacity-60'
                 }
 
                 return (
@@ -155,7 +155,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
                     placeholder="Escribí tu respuesta..."
                     rows={3}
                     id={`answer-${currentQuestion.id}`}
-                    className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition resize-none"
+                    className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition resize-none"
                   />
                   <button
                     onClick={() => {
@@ -170,9 +170,9 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
                 </div>
               ) : (
                 <div className="space-y-3">
-                  <div className="bg-gray-50 rounded-xl p-3">
-                    <p className="text-xs font-medium text-gray-400 mb-1">Tu respuesta:</p>
-                    <p className="text-sm text-gray-700">{answers[currentQuestion.id]}</p>
+                  <div className="bg-muted rounded-xl p-3">
+                    <p className="text-xs font-medium text-muted-foreground mb-1">Tu respuesta:</p>
+                    <p className="text-sm text-muted-foreground">{answers[currentQuestion.id]}</p>
                   </div>
                   <div className="bg-green-50 rounded-xl p-3">
                     <p className="text-xs font-medium text-green-700 mb-1">Respuesta correcta:</p>
@@ -209,7 +209,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
   if (mode === 'results') {
     return (
-      <div className="bg-white rounded-2xl border border-gray-100 p-6 text-center space-y-4">
+      <div className="bg-card rounded-2xl border border-border p-6 text-center space-y-4">
         <div
           className="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-2xl font-bold text-white"
           style={{ backgroundColor: score >= 60 ? '#22c55e' : '#ef4444' }}
@@ -217,10 +217,10 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
           {score}%
         </div>
         <div>
-          <h3 className="text-lg font-bold text-gray-900">
+          <h3 className="text-lg font-bold text-foreground">
             {score >= 80 ? '¡Excelente!' : score >= 60 ? '¡Bien!' : 'Hay que repasar'}
           </h3>
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Acertaste {correctCount} de {questions.length} preguntas
           </p>
         </div>
@@ -232,7 +232,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
             return (
               <div key={q.id} className={`flex items-start gap-2 p-3 rounded-xl ${correct ? 'bg-green-50' : 'bg-red-50'}`}>
                 {correct ? <CheckCircle2 className="w-4 h-4 text-green-500 flex-shrink-0 mt-0.5" /> : <XCircle className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />}
-                <p className="text-sm text-gray-700">{q.question_text}</p>
+                <p className="text-sm text-muted-foreground">{q.question_text}</p>
               </div>
             )
           })}
@@ -252,14 +252,14 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
   // Config mode
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6">
+    <div className="bg-card rounded-2xl border border-border p-6">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${subjectColor}20` }}>
           <Sparkles className="w-5 h-5" style={{ color: subjectColor }} />
         </div>
         <div>
-          <h2 className="font-semibold text-gray-900">Generador de preguntas</h2>
-          <p className="text-sm text-gray-500">La IA crea preguntas basadas en tus materiales</p>
+          <h2 className="font-semibold text-foreground">Generador de preguntas</h2>
+          <p className="text-sm text-muted-foreground">La IA crea preguntas basadas en tus materiales</p>
         </div>
       </div>
 
@@ -267,13 +267,13 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
         {/* Material filter */}
         {materials.length > 0 && (
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">
-              Material específico <span className="text-gray-400">(opcional)</span>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+              Material específico <span className="text-muted-foreground">(opcional)</span>
             </label>
             <select
               value={selectedMaterial}
               onChange={e => setSelectedMaterial(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 transition"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 transition"
             >
               <option value="">Todos los materiales</option>
               {materials.map(m => (
@@ -285,7 +285,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
         {/* Type */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Tipo de preguntas</label>
+          <label className="block text-sm font-medium text-muted-foreground mb-2">Tipo de preguntas</label>
           <div className="grid grid-cols-3 gap-2">
             {[
               { value: 'multiple_choice', label: 'Opción múltiple' },
@@ -298,8 +298,8 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
                 onClick={() => setQuestionType(value as QuestionType)}
                 className={`py-2 px-3 rounded-xl text-xs font-medium border transition ${
                   questionType === value
-                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                    : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                    ? 'border-violet-500 bg-violet-50 text-violet-700'
+                    : 'border-border text-muted-foreground hover:border-gray-300'
                 }`}
               >
                 {label}
@@ -310,7 +310,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
         {/* Difficulty */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Dificultad</label>
+          <label className="block text-sm font-medium text-muted-foreground mb-2">Dificultad</label>
           <div className="grid grid-cols-3 gap-2">
             {[
               { value: 'easy', label: 'Fácil', color: 'text-green-700 border-green-300 bg-green-50' },
@@ -322,7 +322,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
                 type="button"
                 onClick={() => setDifficulty(value as QuestionDifficulty)}
                 className={`py-2 px-3 rounded-xl text-xs font-medium border transition ${
-                  difficulty === value ? color : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                  difficulty === value ? color : 'border-border text-muted-foreground hover:border-gray-300'
                 }`}
               >
                 {label}
@@ -333,8 +333,8 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
         {/* Count */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
-            Cantidad de preguntas: <span className="text-indigo-600 font-bold">{count}</span>
+          <label className="block text-sm font-medium text-muted-foreground mb-1.5">
+            Cantidad de preguntas: <span className="text-violet-600 font-bold">{count}</span>
           </label>
           <input
             type="range"
@@ -345,7 +345,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
             onChange={e => setCount(parseInt(e.target.value))}
             className="w-full accent-indigo-600"
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
+          <div className="flex justify-between text-xs text-muted-foreground mt-1">
             <span>3</span>
             <span>15</span>
           </div>
@@ -369,7 +369,7 @@ export function QuizGenerator({ subjectId, subjectColor, materials, initialQuest
 
       {/* Recent questions count */}
       {initialQuestions.length > 0 && (
-        <p className="text-xs text-gray-400 text-center mt-4">
+        <p className="text-xs text-muted-foreground text-center mt-4">
           Tenés {initialQuestions.length} preguntas generadas anteriormente para esta materia
         </p>
       )}

@@ -63,34 +63,34 @@ export function SettingsForm({ profile, email }: Props) {
   return (
     <div className="space-y-5">
       {/* Profile */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+      <div className="bg-card rounded-2xl border border-border p-6">
         <div className="flex items-center gap-2 mb-5">
-          <User className="w-4.5 h-4.5 w-[18px] h-[18px] text-gray-500" />
-          <h2 className="font-semibold text-gray-900">Perfil</h2>
+          <User className="w-4.5 h-4.5 w-[18px] h-[18px] text-muted-foreground" />
+          <h2 className="font-semibold text-foreground">Perfil</h2>
         </div>
         <form onSubmit={handleSaveProfile} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Nombre completo</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">Nombre completo</label>
             <input
               type="text"
               value={fullName}
               onChange={e => setFullName(e.target.value)}
-              className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">Email</label>
             <input
               type="email"
               value={email}
               disabled
-              className="w-full rounded-xl border border-gray-100 bg-gray-50 px-4 py-2.5 text-sm text-gray-400 cursor-not-allowed"
+              className="w-full rounded-xl border border-border bg-muted px-4 py-2.5 text-sm text-muted-foreground cursor-not-allowed"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="flex items-center gap-2 rounded-xl bg-indigo-600 text-white text-sm font-medium px-5 py-2.5 hover:bg-indigo-700 disabled:opacity-60 transition"
+            className="flex items-center gap-2 rounded-xl bg-violet-600 text-white text-sm font-medium px-5 py-2.5 hover:bg-violet-700 disabled:opacity-60 transition"
           >
             {loading && <Loader2 className="w-4 h-4 animate-spin" />}
             Guardar cambios
@@ -99,20 +99,20 @@ export function SettingsForm({ profile, email }: Props) {
       </div>
 
       {/* Password */}
-      <div className="bg-white rounded-2xl border border-gray-100 p-6">
+      <div className="bg-card rounded-2xl border border-border p-6">
         <div className="flex items-center gap-2 mb-5">
-          <Lock className="w-[18px] h-[18px] text-gray-500" />
-          <h2 className="font-semibold text-gray-900">Cambiar contraseña</h2>
+          <Lock className="w-[18px] h-[18px] text-muted-foreground" />
+          <h2 className="font-semibold text-foreground">Cambiar contraseña</h2>
         </div>
         <form onSubmit={handleChangePassword} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1.5">Nueva contraseña</label>
+            <label className="block text-sm font-medium text-muted-foreground mb-1.5">Nueva contraseña</label>
             <input
               type="password"
               value={newPassword}
               onChange={e => setNewPassword(e.target.value)}
               placeholder="Mínimo 6 caracteres"
-              className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition"
+              className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
             />
           </div>
           <button

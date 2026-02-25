@@ -66,7 +66,7 @@ export default async function ProgressPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Mi progreso</h1>
+      <h1 className="text-2xl font-bold text-foreground">Mi progreso</h1>
 
       <ProgressStats
         subjectProgress={subjectProgress}

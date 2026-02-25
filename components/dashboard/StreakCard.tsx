@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Flame, Shield, Trophy, X, Zap } from 'lucide-react'
+import { Flame, Shield, Trophy, Zap } from 'lucide-react'
 
 interface Props {
   currentStreak: number
@@ -35,21 +35,21 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
     : 100
 
   const flameColor = currentStreak === 0
-    ? 'text-gray-300'
+    ? 'text-muted-foreground'
     : atRisk
     ? 'text-orange-400'
     : 'text-orange-500'
 
   return (
     <>
-      <div className={`bg-white rounded-2xl border p-5 transition ${
-        atRisk ? 'border-orange-200 bg-orange-50/30' : 'border-gray-100'
+      <div className={`bg-card rounded-2xl border p-5 transition ${
+        atRisk ? 'border-orange-200 bg-orange-50/30' : 'border-border'
       }`}>
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className={`relative flex items-center justify-center w-12 h-12 rounded-2xl ${
-              currentStreak > 0 ? 'bg-orange-50' : 'bg-gray-50'
+              currentStreak > 0 ? 'bg-orange-50' : 'bg-muted'
             }`}>
               <Flame className={`w-6 h-6 ${flameColor} ${currentStreak > 0 ? 'drop-shadow-sm' : ''}`} />
               {currentStreak > 0 && (
@@ -59,13 +59,13 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
               )}
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900 leading-none">
+              <p className="text-2xl font-bold text-foreground leading-none">
                 {currentStreak}
-                <span className="text-sm font-medium text-gray-400 ml-1">
+                <span className="text-sm font-medium text-muted-foreground ml-1">
                   {currentStreak === 1 ? 'día' : 'días'}
                 </span>
               </p>
-              <p className="text-xs text-gray-400 mt-0.5">Racha de estudio</p>
+              <p className="text-xs text-muted-foreground mt-0.5">Racha de estudio</p>
             </div>
           </div>
 
@@ -77,7 +77,7 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
               </div>
             ))}
             {freezeCount === 0 && (
-              <span className="text-xs text-gray-400">Sin protecciones</span>
+              <span className="text-xs text-muted-foreground">Sin protecciones</span>
             )}
           </div>
         </div>
@@ -94,7 +94,7 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
 
         {/* Zero streak CTA */}
         {currentStreak === 0 && (
-          <p className="text-xs text-gray-500 mb-3">
+          <p className="text-xs text-muted-foreground mb-3">
             Completá una sesión hoy para iniciar tu racha 🔥
           </p>
         )}
@@ -103,16 +103,16 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
         {nextMilestone && currentStreak > 0 && (
           <div className="mb-3">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-xs text-gray-400">Próximo hito</span>
+              <span className="text-xs text-muted-foreground">Próximo hito</span>
               <span className="text-xs font-semibold text-orange-600">{nextMilestone} días</span>
             </div>
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-muted rounded-full overflow-hidden">
               <div
                 className="h-full bg-orange-400 rounded-full transition-all duration-500"
                 style={{ width: `${Math.min(progressToNext, 100)}%` }}
               />
             </div>
-            <p className="text-xs text-gray-400 mt-1">
+            <p className="text-xs text-muted-foreground mt-1">
               {nextMilestone - currentStreak} {nextMilestone - currentStreak === 1 ? 'día' : 'días'} para el hito
             </p>
           </div>
@@ -123,9 +123,9 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
           <div className="flex items-center justify-between pt-3 border-t border-gray-50">
             <div className="flex items-center gap-1.5">
               <Trophy className="w-3.5 h-3.5 text-amber-400" />
-              <span className="text-xs text-gray-500">Mejor racha</span>
+              <span className="text-xs text-muted-foreground">Mejor racha</span>
             </div>
-            <span className="text-xs font-semibold text-gray-700">{longestStreak} días</span>
+            <span className="text-xs font-semibold text-muted-foreground">{longestStreak} días</span>
           </div>
         )}
       </div>
@@ -133,10 +133,10 @@ export function StreakCard({ currentStreak, longestStreak, lastStudyDate, freeze
       {/* Milestone modal */}
       {showMilestone && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl p-8 text-center max-w-xs w-full shadow-2xl">
+          <div className="bg-card rounded-2xl p-8 text-center max-w-xs w-full shadow-2xl">
             <div className="text-5xl mb-4">🔥</div>
-            <h2 className="text-xl font-bold text-gray-900 mb-2">¡Hito alcanzado!</h2>
-            <p className="text-gray-500 text-sm mb-6">
+            <h2 className="text-xl font-bold text-foreground mb-2">¡Hito alcanzado!</h2>
+            <p className="text-muted-foreground text-sm mb-6">
               Llegaste a <span className="font-bold text-orange-500">{currentStreak} días</span> de racha consecutiva. ¡Seguí así!
             </p>
             <button

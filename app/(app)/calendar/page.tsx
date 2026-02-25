@@ -24,7 +24,7 @@ export default async function CalendarPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Calendario de estudio</h1>
+      <h1 className="text-2xl font-bold text-foreground">Calendario de estudio</h1>
       <GlobalCalendar sessions={allSessions} subjects={allSubjects} />
     </div>
   )

@@ -54,20 +54,20 @@ export default function FlashcardsPage() {
     <div className="space-y-6 max-w-lg mx-auto">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <Link href={`/subjects/${subjectId}`} className="text-gray-400 hover:text-gray-600 transition">
+        <Link href={`/subjects/${subjectId}`} className="text-muted-foreground hover:text-muted-foreground transition">
           <ArrowLeft className="w-5 h-5" />
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Flashcards</h1>
-          <p className="text-sm text-gray-500">Repaso con tarjetas generadas por IA</p>
+          <h1 className="text-2xl font-bold text-foreground">Flashcards</h1>
+          <p className="text-sm text-muted-foreground">Repaso con tarjetas generadas por IA</p>
         </div>
       </div>
 
       {/* Generator */}
       {!flashcards && (
-        <div className="bg-white border border-gray-100 rounded-2xl p-6 space-y-5">
+        <div className="bg-card border border-border rounded-2xl p-6 space-y-5">
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-2">¿Cuántas flashcards querés?</p>
+            <p className="text-sm font-medium text-muted-foreground mb-2">¿Cuántas flashcards querés?</p>
             <div className="flex gap-2">
               {COUNT_OPTIONS.map(n => (
                 <button
@@ -75,8 +75,8 @@ export default function FlashcardsPage() {
                   onClick={() => setCount(n)}
                   className={`flex-1 py-2 rounded-xl border text-sm font-medium transition ${
                     count === n
-                      ? 'border-indigo-500 bg-indigo-50 text-indigo-700'
-                      : 'border-gray-200 text-gray-500 hover:border-gray-300'
+                      ? 'border-violet-500 bg-violet-50 text-violet-700'
+                      : 'border-border text-muted-foreground hover:border-gray-300'
                   }`}
                 >
                   {n}
@@ -92,7 +92,7 @@ export default function FlashcardsPage() {
           <button
             onClick={generate}
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 rounded-xl bg-indigo-600 text-white text-sm font-medium py-2.5 hover:bg-indigo-700 disabled:opacity-60 transition"
+            className="w-full flex items-center justify-center gap-2 rounded-xl bg-violet-600 text-white text-sm font-medium py-2.5 hover:bg-violet-700 disabled:opacity-60 transition"
           >
             {loading ? (
               <>
@@ -112,12 +112,12 @@ export default function FlashcardsPage() {
       {/* Deck */}
       {flashcards && (
         <>
-          <div className="bg-white border border-gray-100 rounded-2xl p-5">
+          <div className="bg-card border border-border rounded-2xl p-5">
             <FlashcardDeck flashcards={flashcards} subjectColor={subjectColor} />
           </div>
           <button
             onClick={() => setFlashcards(null)}
-            className="w-full text-sm text-gray-400 hover:text-gray-600 transition"
+            className="w-full text-sm text-muted-foreground hover:text-muted-foreground transition"
           >
             Generar nuevas flashcards
           </button>

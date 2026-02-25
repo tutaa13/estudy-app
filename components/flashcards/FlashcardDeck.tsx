@@ -78,9 +78,9 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
         >
           {pct}%
         </div>
-        <h3 className="text-lg font-bold text-gray-900">¡Ronda terminada!</h3>
+        <h3 className="text-lg font-bold text-foreground">¡Ronda terminada!</h3>
         {mode === 'quiz' && (
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             {score.correct} correctas · {score.wrong} incorrectas de {total}
           </p>
         )}
@@ -99,13 +99,13 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
   return (
     <div className="space-y-4">
       {/* Mode toggle */}
-      <div className="flex gap-1 bg-gray-100 rounded-xl p-1">
+      <div className="flex gap-1 bg-muted rounded-xl p-1">
         {(['flip', 'quiz'] as Mode[]).map(m => (
           <button
             key={m}
             onClick={() => changeMode(m)}
             className={`flex-1 py-1.5 rounded-lg text-sm font-medium transition ${
-              mode === m ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'
+              mode === m ? 'bg-card shadow-sm text-foreground' : 'text-muted-foreground hover:text-muted-foreground'
             }`}
           >
             {m === 'flip' ? 'Tarjeta' : 'Quiz'}
@@ -115,13 +115,13 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
 
       {/* Progress */}
       <div className="flex items-center gap-3">
-        <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+        <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-300"
             style={{ width: `${((index + 1) / total) * 100}%`, backgroundColor: subjectColor }}
           />
         </div>
-        <span className="text-xs text-gray-400 flex-shrink-0">{index + 1} / {total}</span>
+        <span className="text-xs text-muted-foreground flex-shrink-0">{index + 1} / {total}</span>
       </div>
 
       {/* FLIP MODE */}
@@ -141,12 +141,12 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
             >
               {/* Front */}
               <div
-                className="absolute inset-0 rounded-2xl border border-gray-100 bg-white flex flex-col items-center justify-center p-6 text-center"
+                className="absolute inset-0 rounded-2xl border border-border bg-card flex flex-col items-center justify-center p-6 text-center"
                 style={{ backfaceVisibility: 'hidden' }}
               >
-                <Layers className="w-5 h-5 text-gray-300 mb-3" />
-                <p className="text-base font-semibold text-gray-900">{card.front}</p>
-                <p className="text-xs text-gray-400 mt-4">Tocá para ver la respuesta</p>
+                <Layers className="w-5 h-5 text-muted-foreground mb-3" />
+                <p className="text-base font-semibold text-foreground">{card.front}</p>
+                <p className="text-xs text-muted-foreground mt-4">Tocá para ver la respuesta</p>
               </div>
               {/* Back */}
               <div
@@ -163,7 +163,7 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
             <button
               onClick={prev}
               disabled={index === 0}
-              className="flex items-center gap-1 text-sm text-gray-500 hover:text-gray-800 disabled:opacity-30 transition"
+              className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground disabled:opacity-30 transition"
             >
               <ChevronLeft className="w-4 h-4" />
               Anterior
@@ -183,20 +183,20 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
       {/* QUIZ MODE */}
       {mode === 'quiz' && (
         <div className="space-y-3">
-          <div className="bg-white border border-gray-100 rounded-2xl p-5">
-            <p className="text-base font-semibold text-gray-900 text-center">{card.front}</p>
+          <div className="bg-card border border-border rounded-2xl p-5">
+            <p className="text-base font-semibold text-foreground text-center">{card.front}</p>
           </div>
 
           <div className="space-y-2">
             {Object.entries(card.options).map(([letter, text]) => {
-              let style = 'border-gray-100 bg-white text-gray-800 hover:border-gray-300'
+              let style = 'border-border bg-card text-foreground hover:border-gray-300'
               if (selected) {
                 if (letter === card.correct) {
                   style = 'border-green-400 bg-green-50 text-green-800'
                 } else if (letter === selected && selected !== card.correct) {
                   style = 'border-red-300 bg-red-50 text-red-800'
                 } else {
-                  style = 'border-gray-100 bg-white text-gray-400 opacity-60'
+                  style = 'border-border bg-card text-muted-foreground opacity-60'
                 }
               }
               return (
@@ -222,8 +222,8 @@ export function FlashcardDeck({ flashcards, subjectColor }: Props) {
               <div className={`rounded-xl p-3 text-sm ${selected === card.correct ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
                 {selected === card.correct ? '¡Correcto!' : `La respuesta correcta es: ${card.options[card.correct]}`}
               </div>
-              <div className="bg-gray-50 rounded-xl p-3 text-sm text-gray-600">
-                <span className="font-medium text-gray-700">Explicación: </span>{card.back}
+              <div className="bg-muted rounded-xl p-3 text-sm text-muted-foreground">
+                <span className="font-medium text-muted-foreground">Explicación: </span>{card.back}
               </div>
               <button
                 onClick={next}

@@ -25,10 +25,10 @@ export default async function EditSubjectPage({ params }: Props) {
   return (
     <div className="max-w-xl mx-auto space-y-6">
       <div className="flex items-center gap-3">
-        <Link href={`/subjects/${params.id}`} className="text-gray-400 hover:text-gray-600 transition">
+        <Link href={`/subjects/${params.id}`} className="text-muted-foreground hover:text-muted-foreground transition">
           <ArrowLeft className="w-5 h-5" />
         </Link>
-        <h1 className="text-2xl font-bold text-gray-900">Editar materia</h1>
+        <h1 className="text-2xl font-bold text-foreground">Editar materia</h1>
       </div>
       <SubjectForm subject={subject as Subject} />
     </div>

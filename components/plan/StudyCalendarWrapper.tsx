@@ -71,16 +71,16 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5">
+    <div className="bg-card rounded-2xl border border-border p-5">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="font-semibold text-gray-900">Sesiones de estudio ({sessions.length} días)</h2>
+        <h2 className="font-semibold text-foreground">Sesiones de estudio ({sessions.length} días)</h2>
       </div>
 
       {/* Session list grouped by week */}
       <div className="space-y-6">
         {Object.entries(byWeek).map(([week, weekSessions]) => (
           <div key={week}>
-            <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">{week}</h3>
+            <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">{week}</h3>
             <div className="space-y-2">
               {weekSessions.map((session) => {
                 const completed = sessionState[session.id]
@@ -91,7 +91,7 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
                     className={`flex items-start gap-3 p-3.5 rounded-xl border cursor-pointer transition ${
                       completed
                         ? 'border-green-100 bg-green-50'
-                        : 'border-gray-100 hover:border-indigo-100 hover:bg-indigo-50/30'
+                        : 'border-border hover:border-violet-100 hover:bg-violet-50/30'
                     }`}
                     onClick={() => { setSelected(session); setNotes('') }}
                   >
@@ -102,23 +102,23 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
                       className="mt-0.5 flex-shrink-0 transition"
                     >
                       {completing === session.id ? (
-                        <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
+                        <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
                       ) : completed ? (
                         <CheckCircle2 className="w-5 h-5 text-green-500" />
                       ) : (
-                        <Circle className="w-5 h-5 text-gray-300 hover:text-indigo-500" />
+                        <Circle className="w-5 h-5 text-muted-foreground hover:text-violet-500" />
                       )}
                     </button>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400 flex-shrink-0">
+                        <span className="text-xs text-muted-foreground flex-shrink-0">
                           {format(date, "EEEE d MMM", { locale: es })}
                         </span>
                         <span className="text-gray-200">·</span>
-                        <span className="text-xs text-gray-400">{session.duration_hours}hs</span>
+                        <span className="text-xs text-muted-foreground">{session.duration_hours}hs</span>
                       </div>
-                      <p className={`text-sm font-medium mt-0.5 ${completed ? 'text-gray-400 line-through' : 'text-gray-900'}`}>
+                      <p className={`text-sm font-medium mt-0.5 ${completed ? 'text-muted-foreground line-through' : 'text-foreground'}`}>
                         {session.title}
                       </p>
                       {session.topics && session.topics.length > 0 && (
@@ -133,13 +133,13 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
                             </span>
                           ))}
                           {session.topics.length > 3 && (
-                            <span className="text-xs text-gray-400 px-1 py-0.5">+{session.topics.length - 3} más</span>
+                            <span className="text-xs text-muted-foreground px-1 py-0.5">+{session.topics.length - 3} más</span>
                           )}
                         </div>
                       )}
                     </div>
 
-                    <ChevronDown className="w-4 h-4 text-gray-300 flex-shrink-0 mt-1" />
+                    <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
                   </div>
                 )
               })}
@@ -157,21 +157,21 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
               {streakResult.milestone ? (
                 <>
                   <p className="text-sm font-bold">¡Hito desbloqueado! 🎉</p>
-                  <p className="text-xs text-gray-400">{streakResult.streak} días de racha consecutiva</p>
+                  <p className="text-xs text-muted-foreground">{streakResult.streak} días de racha consecutiva</p>
                 </>
               ) : streakResult.freeze_used ? (
                 <>
                   <p className="text-sm font-bold">Racha protegida 🛡️</p>
-                  <p className="text-xs text-gray-400">Se usó una protección. Racha: {streakResult.streak} días</p>
+                  <p className="text-xs text-muted-foreground">Se usó una protección. Racha: {streakResult.streak} días</p>
                 </>
               ) : (
                 <>
                   <p className="text-sm font-bold">¡Racha actualizada!</p>
-                  <p className="text-xs text-gray-400">{streakResult.streak} {streakResult.streak === 1 ? 'día' : 'días'} consecutivos 🔥</p>
+                  <p className="text-xs text-muted-foreground">{streakResult.streak} {streakResult.streak === 1 ? 'día' : 'días'} consecutivos 🔥</p>
                 </>
               )}
             </div>
-            <button onClick={() => setStreakResult(null)} className="text-gray-500 hover:text-gray-300 flex-shrink-0">
+            <button onClick={() => setStreakResult(null)} className="text-muted-foreground hover:text-muted-foreground flex-shrink-0">
               <X className="w-4 h-4" />
             </button>
           </div>
@@ -181,23 +181,23 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
       {/* Session detail modal */}
       {selected && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center p-4">
-          <div className="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
+          <div className="bg-card rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
             <div className="p-5">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <p className="text-xs text-gray-400 mb-1">
+                  <p className="text-xs text-muted-foreground mb-1">
                     {format(parseISO(selected.scheduled_date), "EEEE d 'de' MMMM", { locale: es })} · {selected.duration_hours}hs
                   </p>
-                  <h3 className="font-semibold text-gray-900 text-lg">{selected.title}</h3>
+                  <h3 className="font-semibold text-foreground text-lg">{selected.title}</h3>
                 </div>
-                <button onClick={() => setSelected(null)} className="text-gray-400 hover:text-gray-600">
+                <button onClick={() => setSelected(null)} className="text-muted-foreground hover:text-muted-foreground">
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
               {selected.description && (
-                <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                  <p className="text-sm text-gray-700 leading-relaxed">{selected.description}</p>
+                <div className="bg-muted rounded-xl p-4 mb-4">
+                  <p className="text-sm text-muted-foreground leading-relaxed">{selected.description}</p>
                 </div>
               )}
 
@@ -208,10 +208,10 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
 
               {selected.topics && selected.topics.length > 0 && (
                 <div className="mb-4">
-                  <p className="text-xs font-semibold text-gray-500 mb-2">TEMAS A CUBRIR</p>
+                  <p className="text-xs font-semibold text-muted-foreground mb-2">TEMAS A CUBRIR</p>
                   <ul className="space-y-1">
                     {selected.topics.map((topic, i) => (
-                      <li key={i} className="flex items-center gap-2 text-sm text-gray-700">
+                      <li key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
                         <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: subjectColor }} />
                         {topic}
                       </li>
@@ -223,15 +223,15 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
               {!sessionState[selected.id] && (
                 <>
                   <div className="mb-3">
-                    <label className="block text-xs font-medium text-gray-500 mb-1.5">
-                      Notas personales <span className="text-gray-400">(opcional)</span>
+                    <label className="block text-xs font-medium text-muted-foreground mb-1.5">
+                      Notas personales <span className="text-muted-foreground">(opcional)</span>
                     </label>
                     <textarea
                       value={notes}
                       onChange={e => setNotes(e.target.value)}
                       placeholder="Ej: Me quedaron dudas sobre el tema X..."
                       rows={3}
-                      className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 transition resize-none"
+                      className="w-full rounded-xl border border-border px-4 py-2.5 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition resize-none"
                     />
                   </div>
                   <button

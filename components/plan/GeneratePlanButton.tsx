@@ -41,16 +41,16 @@ export function GeneratePlanButton({ subjectId, hasPlan, subjectColor }: Props) 
   }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-5">
+    <div className="bg-card rounded-2xl border border-border p-5">
       <div className="flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: `${subjectColor}20` }}>
           <Sparkles className="w-5 h-5" style={{ color: subjectColor }} />
         </div>
         <div className="flex-1">
-          <h3 className="font-semibold text-gray-900 mb-0.5">
+          <h3 className="font-semibold text-foreground mb-0.5">
             {hasPlan ? 'Plan generado con IA' : 'Generá tu plan de estudio'}
           </h3>
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-muted-foreground">
             {hasPlan
               ? 'Ya tenés un plan activo. Podés regenerarlo si actualizaste tus materiales o la fecha de examen.'
               : 'La IA analiza todos tus materiales y distribuye el contenido día a día hasta la fecha del examen.'}
