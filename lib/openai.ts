@@ -9,7 +9,7 @@ export const openai = new OpenAI({
 export const AI_MODEL = 'llama-3.3-70b-versatile'
 
 export async function summarizeContent(content: string, title: string): Promise<string> {
-  const truncated = content.slice(0, 40000)
+  const truncated = content.slice(0, 8000)
 
   const res = await openai.chat.completions.create({
     model: AI_MODEL,

@@ -15,6 +15,7 @@ export default function RegisterPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [emailSent, setEmailSent] = useState(false)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -44,8 +45,8 @@ export default function RegisterPage() {
       return
     }
 
-    router.push('/dashboard')
-    router.refresh()
+    setEmailSent(true)
+    setLoading(false)
   }
 
   return (
@@ -59,6 +60,24 @@ export default function RegisterPage() {
           <p className="text-sm text-gray-500 mt-1">Creá tu cuenta gratis</p>
         </div>
 
+        {emailSent ? (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 text-center">
+            <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-green-100 mx-auto mb-4">
+              <BookOpen className="w-7 h-7 text-green-600" />
+            </div>
+            <h2 className="text-lg font-semibold text-gray-900 mb-2">¡Revisá tu email!</h2>
+            <p className="text-sm text-gray-500 mb-6">
+              Te enviamos un link de confirmación a <span className="font-medium text-gray-700">{email}</span>.
+              Hacé click en el link para activar tu cuenta.
+            </p>
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center rounded-xl bg-indigo-600 text-white font-medium py-2.5 px-6 text-sm hover:bg-indigo-700 transition"
+            >
+              Ir al inicio de sesión
+            </Link>
+          </div>
+        ) : (
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
@@ -129,6 +148,7 @@ export default function RegisterPage() {
             </Link>
           </p>
         </div>
+        )}
       </div>
     </div>
   )

@@ -129,7 +129,7 @@ export async function POST(req: NextRequest) {
       rawContent = formData.get('content') as string
     }
 
-    // Create material record with pending status
+    // Create material record
     const { data: material, error: insertError } = await supabase
       .from('materials')
       .insert({
@@ -150,31 +150,23 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Error al guardar el material.' }, { status: 500 })
     }
 
-    // Summarize content with AI (async, update after)
+    // Summarize with AI — 30s timeout, fallback to raw content if exceeded
+    let processedContent = rawContent.slice(0, 12000)
     if (rawContent && rawContent.length > 50 && !rawContent.startsWith('[')) {
       try {
-        const processed = await summarizeContent(rawContent, title)
-        await supabase
-          .from('materials')
-          .update({ processed_content: processed, status: 'ready', updated_at: new Date().toISOString() })
-          .eq('id', material.id)
+        const aiTimeout = new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('timeout')), 30000)
+        )
+        processedContent = await Promise.race([summarizeContent(rawContent, title), aiTimeout])
       } catch {
-        // Use raw content as fallback
-        await supabase
-          .from('materials')
-          .update({
-            processed_content: rawContent.slice(0, 12000),
-            status: 'ready',
-            updated_at: new Date().toISOString(),
-          })
-          .eq('id', material.id)
+        // fallback already set above
       }
-    } else {
-      await supabase
-        .from('materials')
-        .update({ processed_content: rawContent, status: 'ready', updated_at: new Date().toISOString() })
-        .eq('id', material.id)
     }
+
+    await supabase
+      .from('materials')
+      .update({ processed_content: processedContent, status: 'ready', updated_at: new Date().toISOString() })
+      .eq('id', material.id)
 
     return NextResponse.json({ material }, { status: 201 })
   } catch (err) {
