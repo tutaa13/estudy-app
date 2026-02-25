@@ -5,6 +5,7 @@ import { StudySession } from '@/types'
 import { format, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
 import { CheckCircle2, Circle, ChevronDown, X, Loader2 } from 'lucide-react'
+import { PomodoroTimer } from './PomodoroTimer'
 
 interface Props {
   sessions: StudySession[]
@@ -158,6 +159,11 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
                   <p className="text-sm text-gray-700 leading-relaxed">{selected.description}</p>
                 </div>
               )}
+
+              {/* Pomodoro */}
+              <div className="mb-4">
+                <PomodoroTimer />
+              </div>
 
               {selected.topics && selected.topics.length > 0 && (
                 <div className="mb-4">

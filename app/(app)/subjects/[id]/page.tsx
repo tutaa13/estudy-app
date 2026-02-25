@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, CalendarDays, Clock, Pencil, BookOpen, Lightbulb } from 'lucide-react'
+import { ArrowLeft, CalendarDays, Clock, Pencil, BookOpen, Lightbulb, Layers } from 'lucide-react'
 import { formatDate, daysUntilExam } from '@/lib/utils'
 import { Subject, Material } from '@/types'
 import { MaterialList } from '@/components/materials/MaterialList'
@@ -67,7 +67,7 @@ export default async function SubjectDetailPage({ params }: Props) {
       </div>
 
       {/* Quick actions */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
         <Link
           href={`/subjects/${sub.id}/plan`}
           className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 hover:border-indigo-200 hover:shadow-sm transition group"
@@ -95,6 +95,19 @@ export default async function SubjectDetailPage({ params }: Props) {
           <div>
             <p className="text-sm font-semibold text-gray-900">Practicar</p>
             <p className="text-xs text-gray-400">Preguntas generadas por IA</p>
+          </div>
+        </Link>
+
+        <Link
+          href={`/subjects/${sub.id}/flashcards`}
+          className="flex items-center gap-3 p-4 bg-white rounded-2xl border border-gray-100 hover:border-amber-200 hover:shadow-sm transition group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center group-hover:bg-amber-100 transition">
+            <Layers className="w-5 h-5 text-amber-600" />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-900">Flashcards</p>
+            <p className="text-xs text-gray-400">Tarjetas de repaso con IA</p>
           </div>
         </Link>
       </div>

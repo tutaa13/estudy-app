@@ -65,39 +65,60 @@ export async function POST(req: NextRequest) {
     const todayStr = format(today, 'yyyy-MM-dd')
     const examDateStr = format(examDate, 'yyyy-MM-dd')
 
-    const systemPrompt = `Eres un experto en pedagogía y planificación de estudios. Generás planes de estudio detallados y personalizados basados en el contenido real de los materiales.`
+    const reviewDays = daysAvailable <= 5 ? 1 : 2
 
-    const userPrompt = `Generá un plan de estudio completo para la materia "${subject.name}".
+    const systemPrompt = `Sos un experto en pedagogía y aprendizaje acelerado. Tu especialidad es crear planes de estudio altamente personalizados, progresivos y accionables basados en el contenido real que tiene el alumno.`
 
-DATOS:
+    const userPrompt = `Creá un plan de estudio detallado para la materia "${subject.name}".
+
+DATOS DEL ALUMNO:
 - Fecha de hoy: ${todayStr}
 - Fecha del examen: ${examDateStr}
-- Días disponibles: ${daysAvailable}
-- Horas de estudio disponibles por día: ${subject.hours_per_day}
-- Materiales de estudio disponibles: ${noMaterials ? 'Ninguno (usar temario estándar de la materia)' : `${mats.length} material(es)`}
+- Días disponibles para estudiar: ${daysAvailable}
+- Horas de estudio por día: ${subject.hours_per_day}
+- Materiales cargados: ${noMaterials ? 'Ninguno' : `${mats.length} material(es)`}
 
-MATERIALES:
+MATERIALES DEL ALUMNO:
 ${materialsSection}
 
-INSTRUCCIONES:
-- Distribuí el contenido de los materiales en sesiones de estudio diarias
-- Cada sesión debe tener una duración aproximada de ${subject.hours_per_day} horas
-- Empezar desde ${todayStr} (o el día siguiente) hasta ${examDateStr} (exclusive)
-- Los últimos 1-2 días antes del examen deben ser de repaso general
-- Cada sesión debe tener: un título claro, descripción de qué estudiar y cómo, y lista de temas específicos
-- Distribuir de lo más básico a lo más complejo
-- NO incluyas el día del examen
+PROCESO PARA GENERAR EL PLAN:
+
+PASO 1 - ANALIZÁ EL CONTENIDO:
+Identificá TODOS los conceptos, definiciones, teorías, fórmulas y procedimientos presentes en los materiales.
+Clasificalos en tres niveles:
+- FUNDAMENTALES: conceptos base sin los cuales no se puede entender el resto
+- INTERMEDIOS: conceptos que dependen de los fundamentales
+- AVANZADOS: conceptos complejos que dependen de los anteriores
+
+PASO 2 - DISEÑÁ LA PROGRESIÓN:
+- Empezá SIEMPRE por los conceptos fundamentales (día 1 y 2)
+- Avanzá hacia los intermedios, luego los avanzados
+- Agrupá en cada sesión temas que tienen coherencia entre sí
+- Los últimos ${reviewDays} día(s) antes del examen: repaso integral y ejercicios de práctica
+- No incluyas el día ${examDateStr} (día del examen)
+- Las sesiones empiezan desde ${todayStr} en adelante, una por día
+
+PASO 3 - ESCRIBÍ CADA SESIÓN CON MÁXIMO DETALLE:
+- Título: específico con los temas reales del material (NUNCA escribas "Sesión 1" o "Introducción" genérica)
+- Descripción: indicá QUÉ hacer exactamente en esa sesión (leer sección X, hacer resumen de Y, resolver ejercicios de Z, crear mapa conceptual de W). Mencioná conceptos específicos del material.
+- Topics: listá los conceptos exactos a estudiar, extraídos textualmente del material
+
+REGLAS IMPORTANTES:
+- Cada sesión dura exactamente ${subject.hours_per_day} hora(s)
+- Los títulos deben reflejar el contenido real, no ser genéricos
+- Las descripciones deben ser instrucciones concretas de qué hacer (verbos de acción)
+- Los topics deben ser términos/conceptos reales del material, no categorías vagas
 - Respondé ÚNICAMENTE con el JSON, sin texto adicional, sin markdown
 
-FORMATO DE RESPUESTA (JSON estricto):
+FORMATO JSON ESTRICTO:
 {
   "sessions": [
     {
       "date": "YYYY-MM-DD",
       "duration_hours": ${subject.hours_per_day},
-      "title": "Título de la sesión",
-      "description": "Descripción detallada de qué estudiar y cómo abordarlo",
-      "topics": ["Tema 1", "Tema 2", "Tema 3"]
+      "title": "Título específico con temas reales",
+      "description": "Instrucciones concretas de qué hacer en esta sesión: leer X, resumir Y, practicar Z...",
+      "topics": ["Concepto específico 1", "Concepto específico 2", "Concepto específico 3"]
     }
   ]
 }`
@@ -109,7 +130,7 @@ FORMATO DE RESPUESTA (JSON estricto):
         { role: 'user', content: userPrompt },
       ],
       temperature: 0.4,
-      max_tokens: 4000,
+      max_tokens: 6000,
       response_format: { type: 'json_object' },
     })
 
