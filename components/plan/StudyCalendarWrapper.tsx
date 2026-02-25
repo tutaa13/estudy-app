@@ -4,8 +4,14 @@ import { useState } from 'react'
 import { StudySession } from '@/types'
 import { format, parseISO } from 'date-fns'
 import { es } from 'date-fns/locale'
-import { CheckCircle2, Circle, ChevronDown, X, Loader2 } from 'lucide-react'
+import { CheckCircle2, Circle, ChevronDown, X, Loader2, Flame } from 'lucide-react'
 import { PomodoroTimer } from './PomodoroTimer'
+
+interface StreakResult {
+  streak: number
+  milestone: number | null
+  freeze_used: boolean
+}
 
 interface Props {
   sessions: StudySession[]
@@ -19,6 +25,7 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
   )
   const [notes, setNotes] = useState('')
   const [completing, setCompleting] = useState<string | null>(null)
+  const [streakResult, setStreakResult] = useState<StreakResult | null>(null)
 
   // Group sessions by week
   const byWeek: Record<string, StudySession[]> = {}
@@ -33,11 +40,13 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
     setCompleting(session.id)
     const newCompleted = !sessionState[session.id]
 
-    await fetch(`/api/sessions/${session.id}/complete`, {
+    const res = await fetch(`/api/sessions/${session.id}/complete`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completed: newCompleted }),
     })
+    const data = await res.json()
+    if (newCompleted && data.streak) setStreakResult(data.streak)
 
     setSessionState(prev => ({ ...prev, [session.id]: newCompleted }))
     setCompleting(null)
@@ -47,11 +56,13 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
     if (!selected) return
     setCompleting(selected.id)
 
-    await fetch(`/api/sessions/${selected.id}/complete`, {
+    const res = await fetch(`/api/sessions/${selected.id}/complete`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ completed: true, notes }),
     })
+    const data = await res.json()
+    if (data.streak) setStreakResult(data.streak)
 
     setSessionState(prev => ({ ...prev, [selected.id]: true }))
     setNotes('')
@@ -136,6 +147,36 @@ export function StudyCalendarWrapper({ sessions, subjectColor }: Props) {
           </div>
         ))}
       </div>
+
+      {/* Streak celebration toast */}
+      {streakResult && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-bounce-in">
+          <div className="bg-gray-900 text-white rounded-2xl px-5 py-3.5 shadow-2xl flex items-center gap-3 max-w-sm">
+            <Flame className="w-5 h-5 text-orange-400 flex-shrink-0" />
+            <div className="flex-1">
+              {streakResult.milestone ? (
+                <>
+                  <p className="text-sm font-bold">¡Hito desbloqueado! 🎉</p>
+                  <p className="text-xs text-gray-400">{streakResult.streak} días de racha consecutiva</p>
+                </>
+              ) : streakResult.freeze_used ? (
+                <>
+                  <p className="text-sm font-bold">Racha protegida 🛡️</p>
+                  <p className="text-xs text-gray-400">Se usó una protección. Racha: {streakResult.streak} días</p>
+                </>
+              ) : (
+                <>
+                  <p className="text-sm font-bold">¡Racha actualizada!</p>
+                  <p className="text-xs text-gray-400">{streakResult.streak} {streakResult.streak === 1 ? 'día' : 'días'} consecutivos 🔥</p>
+                </>
+              )}
+            </div>
+            <button onClick={() => setStreakResult(null)} className="text-gray-500 hover:text-gray-300 flex-shrink-0">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Session detail modal */}
       {selected && (

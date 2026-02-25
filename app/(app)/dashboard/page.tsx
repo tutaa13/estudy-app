@@ -3,12 +3,13 @@ import Link from 'next/link'
 import { Plus, BookMarked, Clock, CheckCircle2, AlertCircle } from 'lucide-react'
 import { daysUntilExam, formatDate } from '@/lib/utils'
 import { Subject, StudySession } from '@/types'
+import { StreakCard } from '@/components/dashboard/StreakCard'
 
 export default async function DashboardPage() {
   const supabase = createClient()
   const { data: { user } } = await supabase.auth.getUser()
 
-  const [{ data: subjects }, { data: todaySessions }] = await Promise.all([
+  const [{ data: subjects }, { data: todaySessions }, { data: profile }] = await Promise.all([
     supabase
       .from('subjects')
       .select('*')
@@ -21,11 +22,17 @@ export default async function DashboardPage() {
       .eq('user_id', user!.id)
       .eq('scheduled_date', new Date().toISOString().split('T')[0])
       .order('created_at'),
+    supabase
+      .from('profiles')
+      .select('current_streak, longest_streak, last_study_date, streak_freeze_count')
+      .eq('id', user!.id)
+      .single(),
   ])
 
   const activeSubjects = (subjects as Subject[]) ?? []
   const sessions = (todaySessions as StudySession[]) ?? []
   const completedToday = sessions.filter(s => s.is_completed).length
+  const streak = profile ?? { current_streak: 0, longest_streak: 0, last_study_date: null, streak_freeze_count: 1 }
 
   return (
     <div className="space-y-6">
@@ -43,6 +50,14 @@ export default async function DashboardPage() {
           Nueva materia
         </Link>
       </div>
+
+      {/* Streak */}
+      <StreakCard
+        currentStreak={streak.current_streak}
+        longestStreak={streak.longest_streak}
+        lastStudyDate={streak.last_study_date}
+        freezeCount={streak.streak_freeze_count}
+      />
 
       {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
